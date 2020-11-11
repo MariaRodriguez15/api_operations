@@ -1,4 +1,9 @@
 const {validationResult} = require('express-validator');
+const operation_factory = require('./operations_factory')
+const sub = operation_factory.create('subtraction');
+const mult = operation_factory.create('multiplication');
+const div = operation_factory.create('division');
+
 
 
 exports.sum = (req, res, netx) => {
@@ -14,7 +19,8 @@ exports.sum = (req, res, netx) => {
         const valueOne = +req.body.valueOne;
         const valueTwo = +req.body.valueTwo;
         
-        const result = valueOne + valueTwo;
+        
+       
        
         res.status(201).json({message:"sum success.", data: { result } });
 
@@ -39,10 +45,10 @@ exports.subtraction = (req, res, netx) => {
     try {
         const valueOne = +req.body.valueOne;
         const valueTwo = +req.body.valueTwo;
-        
-        const result = valueOne - valueTwo;
-       
-        res.status(201).json({message:"subtraction success.", data: { result } });
+        //const result = valueOne - valueTwo;
+       // subtraction(+req.body.valueOne,+req.body.valueOne);
+        const result = sub.calculator(valueOne,valueTwo);
+        res.status(201).json({message:"subtraction success.", data: { result} });
 
     } catch (e) {
         const error= new Error('Validation failed');
@@ -66,8 +72,8 @@ exports.multiplication = (req, res, netx) => {
         const valueOne = +req.body.valueOne;
         const valueTwo = +req.body.valueTwo;
 
-        const result = valueOne * valueTwo;
-
+        //const result = valueOne * valueTwo;
+        const result = mult.calculator(valueOne,valueTwo);
         res.status(201).json({message:"multiplication success.", data: { result } });
 
     } catch (e) {
@@ -92,7 +98,8 @@ exports.division = (req, res, netx) => {
         const valueOne = +req.body.valueOne;
         const valueTwo = +req.body.valueTwo;
         if(valueTwo!=0){
-            const result = valueOne / valueTwo;
+            //const result = valueOne / valueTwo;
+            const result = div.calculator(valueOne,valueTwo);
 
             res.status(201).json({message:"division success.", data: { result } });
             
